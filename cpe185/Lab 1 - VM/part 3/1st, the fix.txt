@@ -1,0 +1,20 @@
+mov cx,000A
+mov ah, 09
+mov dx, 0200
+int 21
+mov dx, 020E
+int 21
+inc byte ptr [020E]
+loopnz 0105
+mov byte ptr [020E],30
+mov ah,4c
+int 20
+
+the one with name
+e100
+B9 0A 00 B4 09 BA 00 02 CD 21 BA 0E 02 CD 21 FE 06 0E 02 E0 F0 C6 06 0E 02 30 B4 4C CD 20 00 00
+
+
+the one with hello world 
+e100
+B9 0A 00 B4 09 BA 00 02 CD 21 BA 0E 02 CD 21 FE 06 0E 02 E0 F0 C6 06 0E 02 30 B4 4C CD 20 00 00

@@ -1,0 +1,47 @@
+cseg segment 'code'
+assum cs:cseg, ds cseg, ss:cseg, es:cseg
+
+	org 100h
+
+start: 	mov ah, 01
+	int 21h
+	mov bh, al	
+	mov ah, 01
+	int 21h
+	mov bl,al	
+	
+	
+	sub bx, 3030h			
+
+	
+	mov ax, 000h
+	mov al, bh
+	//mul 0ah  
+	add al,bl 			
+
+	
+	mov cx, ax
+	mov ah,9
+
+again:	mov dx, offset Hello
+	int 21h
+	mov dx, 0ffset Num_msg
+	int 21h
+	inc byte ptr Num_msg
+	loopne again
+
+done: mov ah, 4ch
+	int 21h
+
+/////////// things to try
+mov cx,0
+cx = 99
+cx = 10
+cx 04 // less then 10
+cx = 11
+
+
+mov ax, 000h
+	mov al, bh
+	mul al, 0ah
+	add al,bl

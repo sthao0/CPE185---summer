@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+ 
+int main() {
+	
+	//Registers
+	int al = 0,bl=0,cl=0;
+	char m360[] = ("EEE 174/ CPE 185 Lab 1 Part 2"); //define memory 360 
+
+	printf("%s\n", m360); // print the string from memory 360
+	
+	
+	//Memory location at m200 = 222	& m202 = 555
+	int m354 = 1;
+	int m355 = 55; 
+	int m356 =0;
+
+	// now we will mov cl, 20, meaning assgining cl to 20
+	cl = 20;
+	
+	//MOV al, [0354] - al is assigned to content of memory location at m354
+	al = m354; 
+	
+	//MOV bl, [0355] - bl is assigned to content of memory location at m355
+	bl = m355; 
+	
+	//SUB al, bl - the subtraction of al and bl is stored at al
+	al = al - bl;
+	
+	//JGE 0114 - Checking if al is greater than 0; skips the while loop if true
+	while (al < 0){  // while al is not greater than 0 
+		
+		al = al + cl;// ADD al, cl - the addition of al and cl is stored at al
+		m356++;  //increments how many time it went through the loop
+	}
+	//JMP 010E - If al is still not greater than 0,jump back to the while loop
+	
+	m354 = al;	// MOV [0200], al - its value will be assigned to the content m200 when al is greater than 0
+	printf("%d", m356); // int 21 - print out info from mem 0356
+	//memory location at 200
+	return 0; //INT 20 - terminate the program
+}

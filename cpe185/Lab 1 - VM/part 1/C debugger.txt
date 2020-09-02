@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+ 
+int main() {
+	
+	//Registers
+	int ax = 0,bx=0,dx=0;
+	
+	
+	//Memory location at m200 = 333	& m202 = 555
+	int m200 = 222;
+	int m202 = 555; 
+
+	// now we will mov DX, 0120, meaning assgining dx to 333
+	dx = 222;
+	
+	//MOV AX, [0200] - AX is assigned to content of memory location at m200
+	ax = m200; 
+	
+	//MOV BX, [0202] - BX is assigned to content of memory location at m202
+	bx = m202; 
+	
+	//SUB AX, BX - the subtraction of AX and BX is stored at AX
+	ax = ax - bx;
+	
+	//JGE 0114 - Checking if AX is greater than 0; skips the while loop if true
+	while (ax < 0){  // while ax is not greater than 0 
+		
+		ax = ax + dx;// ADD AX, DX - the addition of AX and DX is stored at AX
+		printf("Loop: %d\n", ax); //Print value of ax to track its changes.	
+	}
+	//JMP 010E - If ax is still not greater than 0,jump back to the while loop
+	
+	m200 = ax;	// MOV [0200], AX - its value will be assigned to the content m200 when AX is greater than 0
+	
+	printf("%d\n", m200);
+	//memory location at 200
+	return 0; //INT 20 - terminate the program
+}

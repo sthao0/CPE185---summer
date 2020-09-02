@@ -1,0 +1,165 @@
+got to do tracing chart for both of them
+
+
+
+convurt 16 bit ax to 2 , 8 bit, ah /al
+
+1. set up flow chart to only for one conditional jump, remove the jump in the straight line loop then shift the block below that one to jump back to check if its postive
+2. with my name cant use dx, use cl instead, memory location is 354, isnt of e200 (ax{0200}) use e354 instead
+
+mov cl, 20				0120 (16 bit) so no cant fit since its a 8 bit reg
+mov al,[0454] is it valid to fit in a 8 bit location? yes since bracket are memory address, allow grabbing one bit of memory location. computer smart enough to just grab one bit of memory at a time
+mov bl,[0455]
+sub al, bl
+jge 111(how many bit away is that jmp)
+add al, cl
+jmp 10B(negative something, to jump back to look)
+mov [0454], al
+//int 21
+int 20
+
+
+4. ah,09 is display message?  "$" - indicate the end of the string  0d 0a just are white cursor allowing a new line
+
+move dx,0460   (should be at memory location 100) (only expection to display message to the screen, only time to if you cant use d or a)
+mov ah, 09
+mov cl, 20	(this locaiton is 107) 		0120 (16 bit) so no cant fit since its a 8 bit reg
+mov al,[0454] (test question) is it valid to fit in a 8 bit location? yes since bracket are memory address, allow grabbing one bit of memory location. computer smart enough to just grab one bit of memory at a time
+mov bl,[0455]
+sub al, bl
+jge 				(how many bit away is that jmp)
+inc byte ptr[0456] (increment by the hex in 0456 which is 0) (increment should be before the add so it keep its correct logic, if before the add it would set it postive and you mmight exit look before it has mature)
+add al, cl
+jmp 				(negative something, to jump back to look)
+mov [0454], al
+mov Dx, 0456
+mov ah, 09
+int 21
+int 20
+
+e460 "hello world" 0d 0a "$"   (print out hello world)
+e456 30 0d 0a "$"   (30 is hex for 0)(ascii 0) ( this line print out # 0)
+
+
+have to do tracing chart( have to understand how to do breakpoint from part 1)
+
+g=100 107 
+
+hand assembly templet, enter them into assembly one instruciton at the time, unassemeble to see if its right
+
+e100
+B1 02 A0 54 04 6A 1E 55 04 28 D8 7D 04 00 C8 EB FA A2 54 04 CD 20
+
+e354
+05 09
+
+u100 115
+
+
+
+
+
+
+
+
+
+
+This works:
+
+mov cl, 20
+mov al,[0354]
+mov bl,[0355]
+sub al, bl
+jge 0111
+add al, cl
+jmp 010B
+mov [0354], al
+int 20
+
+mov dx,0360
+mov ah,09
+int 21
+mov cl, 20
+mov al,[0354]
+mov bl,[0355]
+sub al, bl
+jge 0118
+add al, cl
+jmp 0112
+mov [0354], al
+int 20
+
+e354
+05 09
+
+e360 "EEE 174/ CPE 185 Lab 1 Part 2" 0d 0a "$"
+
+copy this:
+step:
+
+mov dx,0360
+mov ah,09
+int 21
+mov cl, 20
+mov al,[0354]
+mov bl,[0355]
+sub al, bl
+jge 011C
+inc byte ptr [0356]
+add al, cl
+jmp 0112
+mov [0354], al
+mov dx, 0356
+mov ah,09
+int 21
+int 20
+
+
+this for demo: 
+e360 "EEE 174/ CPE 185 Lab 1 Part 2" 0d 0a "$"
+
+e356 30 0d 0a "$"
+
+e354 
+01 55- 3 loop
+05 09 - 1 loop
+13 09 - 0 loop       
+
+g=100 to exceute
+
+to jump through program for tracing
+g=100 107
+
+
+e100
+BA 60 03 B4 09 CD 21 B1 20 A0 54 03 8A 1E 55 03 28 D8 7D 08 FE 06 56 03 00 C8 EB F6 A2 54 03 BA 56 03 B4 09 CD 21 CD 20 00 8B 36 92 DE 8B 44 FE BE C6 DB 8B 74 09 03 C6 50 E8 0D FA 58 E8 5A 00
+
+
+ssssssssssssssssssss
+mov dx, 0410
+mov ah, 09
+int 21
+mov cl, 20 
+mov dl, [0404]
+mov bl, [0405]
+sub dl, bl
+jge 011D
+inc byte ptr [0406]
+add dl, cl
+jmp 0113
+mov [0404], dl
+mov dx, 0406
+mov ah, 09
+int 21
+int 20
+
+e410 "EEE 174/ CpE 185 Lab 1 Part 2" 0d 0a "$"
+
+e406 30 0d 0a "$"
+
+e404
+05 09
+
+
+
+

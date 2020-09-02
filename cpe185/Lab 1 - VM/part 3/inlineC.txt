@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int x,y,z,add;
+    printf("Enter a 2 digi number: ");
+    scanf("%d", &x);
+    y = x/10;
+    printf("%d\n", y);
+    z = x%10;
+    printf("%d\n", z);
+
+    __asm__ ( "imull %%ebx, %%eax;" : "=a" (y) : "a" (y) , "b" (10) );
+    __asm__ ( "addl %%ebx, %%eax;" : "=a" (add) : "a" (y) , "b" (z) );
+    
+     printf( "%d + %d = %d\n", y, z, add );
+     for(int i=0; i < add;i++)
+     {
+        printf("\nShammah T World %d", i);
+     }
+    return 0 ;
+}

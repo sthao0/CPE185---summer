@@ -1,0 +1,56 @@
+cseg segment 'code'
+assume cs:cseg, ds:cseg, ss:cseg, es:cseg
+
+	org 100h
+
+start: 
+	mov ah,09h		
+	mov dx, offset prompt		;get prompt
+	int 21h				; output prompt
+	mov ah,01h			; user input
+	int 21h
+	sub al, 30h			; subtract 30h form user input
+	mov bl, 0ah	
+	mul bl				;multiple bl to ah, make into a 2 digit number 
+	mov bl,al
+	mov ah, 01h
+	int 21h				;get second digit accepted into asm
+	sub al, 30h
+	add bl, al			;add the first and second together
+	mov cl, bl		
+	jmp again			; goes to again
+	
+again:
+	mov ah,09h
+	mov dx, offset Hello		; get quote from hello		 
+	int 21h
+	mov dx, offset tens		; get first digit
+	int 21h
+	mov dx, offset ones		; get second digit
+	int 21h
+	inc byte ptr ones		; increment by one
+	mov al, ones			; move ones to al
+	cmp al, 3ah			; compare 3a to al
+	jg reset			; jump to reset if al is greater than al
+	loopne again
+
+reset:
+	mov byte ptr ones, 30h		;set 30h to ones
+	inc byte ptr tens		; increment tens by 1
+	cmp cx,0			; compare reg to 0
+	jg again			; jmp to again if its greater than 0
+	jmp done			; jump to done otherwise
+
+done:
+	mov ah, 4ch			; end programn
+	int 21h
+
+org 200h
+
+prompt db "Hello, im shammah", 0ah, 0dh, "Enter a number: ", 20h, 20h , 0ah, 0dh, "$"
+Hello db "Shammah T world", 20h, 20h, "$"
+ones db 30h, 13, 10, "$"
+tens db 30h, "$"
+
+cseg ends 
+end start
